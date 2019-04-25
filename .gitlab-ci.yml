@@ -1,0 +1,17 @@
+image: docker:latest
+services:
+- docker:dind
+
+stages:
+  - deploy
+
+deploy_adjoy_front:
+  stage: deploy
+  only:
+    - prod
+  script:
+    - docker rmi -f adjoy_front:latest || true
+    - docker build -t adjoy_front .
+    - docker rm -f adjoy_front || true
+    - docker run -d -p 5000:80 -v media:/usr/share/nginx/html/media --name adjoy_front adjoy_front
+    - docker system prune -f

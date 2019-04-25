@@ -1,0 +1,17 @@
+export const colors = {
+  бежевый: 'Light',
+  белый: 'Light',
+  голубой: 'Light',
+  жёлтый: 'Bright',
+  зелёный: 'Bright',
+  золотой: 'Bright',
+  коричневый: 'Dark',
+  красный: 'Bright',
+  оранжевый: 'Bright',
+  пурпурный: 'Bright',
+  серебряный: 'Light',
+  серый: 'Dark',
+  синий: 'Bright',
+  фиолетовый: 'Dark',
+  чёрный: 'Dark',
+};

@@ -1,0 +1,29 @@
+@import './settings/colors';
+
+.body {
+  color: $color-black;
+  font-size: 15px;
+  line-height: 20px;
+  margin: 0;
+  height: 100%;
+  min-width: 100vh;
+}
+
+.content {
+  color: $color-black;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+
+  &.white {
+    color: #fff;
+ }
+}
+
+.caption {
+  color: $color-black;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 2.4;
+  letter-spacing: 0.3px;
+}

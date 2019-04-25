@@ -1,0 +1,119 @@
+@import '../../styles/settings/colors';
+@import '../../styles/base';
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  height: 40px;
+  text-decoration: none;
+
+  &:hover {
+    opacity: .9;
+  }
+
+  &:active {
+    opacity: .7;
+  }
+}
+
+.text {
+  composes: content;
+}
+
+.white {
+  color: #fff;
+}
+
+.primary {
+  box-shadow: $shadow-button-primary;
+  background-color: $color-green;
+}
+
+.secondary {
+  box-shadow: $shadow-button-primary;
+  background-color: $color-purple;
+}
+
+.outline {
+  border: 1px solid $color-light-blue;
+  background-color: #fff;
+}
+
+.transparent {
+  position: relative;
+  border-radius: 0;
+  color: $color-black;
+
+  .leftExtraShadow {
+    visibility: hidden;
+  }
+
+  .rightExtraShadow {
+    visibility: hidden;
+  }
+
+  &:hover {
+    opacity: .9;
+  }
+
+  &:active {
+    opacity: .9;
+    background-color: $color-grey-darker;
+
+    .leftExtraShadow {
+      visibility: visible;
+    }
+
+    .rightExtraShadow {
+      visibility: visible;
+    }
+  }
+}
+
+.extraShadow {
+  position: absolute;
+  background-color: $color-grey-darker;
+  width: 5px;
+  height: 40px;
+}
+
+.leftExtraShadow {
+  composes: extraShadow;
+  left: -5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.rightExtraShadow {
+  composes: extraShadow;
+  right: -5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.medium {
+  width: 150px;
+}
+
+.big {
+  width: 210px;
+}
+
+.icon {
+  width: 20px;
+}
+
+.disabled {
+  opacity: .5;
+
+  &:hover {
+    opacity: .5;
+  }
+}

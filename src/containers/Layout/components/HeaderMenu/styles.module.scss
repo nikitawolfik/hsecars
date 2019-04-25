@@ -1,0 +1,30 @@
+@import '../../../../styles/settings/colors';
+
+.menuWrapper {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-grey-link;
+  position: fixed;
+  width: 100vw;
+}
+
+.link:hover {
+  background-color: $color-pale-grey;
+  border-radius: 6px;
+}
+
+.link {
+  text-decoration: none;
+  padding: 10px 20px;
+  width: 120px;
+  margin: 0px 20px;
+  text-align: center;
+  color: black;
+}
+
+.linkActive {
+  color: $color-purple;
+}

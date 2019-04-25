@@ -1,0 +1,159 @@
+@import '../../styles/settings/colors';
+@import '../../styles/global.scss';
+@import '../../styles/base.scss';
+
+.container {
+  margin-top: 60px;
+  background-color: $color-pale-grey;
+  height: 100%;
+  min-height: 100vh;
+
+}
+
+.select, .input {
+  height: 40px;
+  border-radius: 6px;
+  margin: 10px 0px;
+  border: 1px solid $color-grey-link;
+  width: 80%;
+  text-align: center;
+  font-size: 16px;
+}
+
+.select:focus, .input:focus {
+  outline: none;
+  border-radius: 6px;
+  border: 1px solid $color-yellow;
+}
+
+.input::placeholder {
+  color: black;
+  opacity: 0.5;
+}
+
+.select {
+  text-align-last: center;
+}
+
+.measure {
+  margin-left: -32px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: $color-super-dark-grey
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 90%;
+  margin-top: 30px;
+  border: 1px solid $color-pale-grey;
+  padding: 16px 0px 16px 24px;
+  border-radius: 6px;
+  box-shadow: $shadow-3;
+}
+
+.formWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fieldWrapper {
+  display: flex;
+  width: 25%
+}
+
+.row, .rowShort {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: left;
+}
+
+.rowShort {
+  justify-content: space-around;
+}
+
+.rowShort .fieldWrapper {
+  width: 30%;
+}
+
+.button {
+  margin-top: 30px;
+  height: 40px;
+  width: 100%;
+  max-width: 160px;
+  box-shadow: none;
+  border-radius: 6px;
+  border: none;
+  background-color: $color-blue;
+  cursor: pointer;
+}
+
+.buttonReset {
+  margin-top: 30px;
+  height: 40px;
+  width: 100%;
+  max-width: 160px;
+  box-shadow: none;
+  border-radius: 6px;
+  border: none;
+  background-color: $color-red;
+  cursor: pointer;
+}
+
+.buttonText {
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.price {
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+h2 {
+  letter-spacing: 0.5px;
+}
+
+.errorWrapper {
+  display: flex;
+}
+
+.inputInside {
+  display: flex;
+  max-width: 100%;
+  flex-direction: column;
+  width: 100%;
+}
+
+.error {
+  max-width: 75%;
+  font-size: 12px;
+  color: red;
+  line-height: 14px;
+  text-align: center;
+  height: 30px;
+}
+
+.withError {
+  border: 1px solid red;
+}
+
+.inputMeasure {
+  display: flex;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%;
+}

@@ -1,0 +1,55 @@
+@import './settings/colors';
+@import './mixins/responsive';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, .9);
+}
+
+body {
+  color: $color-black;
+  font-size: 15px;
+  line-height: 20px;
+  min-width: 320px;
+}
+
+h1 {
+  margin: 0;
+  color: $color-black;
+  font-size: 28px;
+  line-height: 30px;
+  font-weight: 500;
+  z-index: 8;
+}
+
+h2 {
+  margin: 0;
+  color: $color-black;
+  font-size: 22px;
+  line-height: 25px;
+  font-weight: 500;
+}
+
+textarea, input {
+  -webkit-appearance: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+a {
+  color: $color-black;
+
+  &:active {
+    opacity: .7;
+  };
+}
+
+.ReactModalPortal {
+  position: relative;
+}

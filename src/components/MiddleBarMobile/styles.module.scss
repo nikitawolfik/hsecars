@@ -1,0 +1,161 @@
+@import '../../styles/settings/colors';
+@import '../../styles/mixins/responsive';
+
+$animation-time: 400ms;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  width: 100%;
+  max-width: 200px;
+  height: 100vh;
+  box-shadow: $shadow-1;
+  background-color: $color-pale-grey;
+  transition: all ease-in-out $animation-time;
+  padding-left: 16px;
+  padding-right: 8px;
+
+  @include respond-to(md) {
+    position: fixed;
+    z-index: 5;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.toggleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 184px;
+  height: 56px;
+
+  @include respond-to(md) {
+    width: 100%;
+  }
+}
+
+
+.toggle {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 2;
+
+  @include respond-to(md) {
+    font-size: 24px;
+    min-width: 75vw;
+  }
+}
+
+.toggleIcon {
+  height: 16px;
+  width: 16px;
+
+  @include respond-to(md) {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+.innerSidebar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 16px;
+  max-width: 176px;
+  position: fixed;
+  left: 68px;
+
+  @include respond-to(md) {
+    position: relative;
+    left: 0;
+    max-width: 100%;
+  }
+}
+
+.innerSidebarContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.loader {
+  margin-top: 20px;
+}
+
+.entering {
+  transition: all ease-in-out $animation-time;
+  animation: setSidebarOpenedMobile $animation-time ease-in-out;
+}
+
+.exiting {
+  transition: all ease-in-out $animation-time;
+  animation: closeSidebarMobile $animation-time ease-in-out;
+}
+
+.innerEntering {
+  transition: all ease-in-out $animation-time;
+  animation: toggleInMobile $animation-time ease-in-out;
+}
+
+.innerExiting {
+  transition: all ease-in-out $animation-time;
+  animation: toggleOutMobile $animation-time ease-in-out;
+}
+
+@keyframes toggleInMobile {
+  from {
+    transform: translateX(-100%)
+  }
+  to {
+    transform: translateX(0%)
+  }
+}
+
+@keyframes toggleOutMobile {
+  from {
+    transform: translateX(0%)
+  }
+  to {
+    transform: translateX(-100%)
+  }
+}
+
+@keyframes setSidebarOpenedMobile {
+  0% {
+    max-width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes closeSidebarMobile {
+  0% {
+    opacity: 1;
+    max-width: 100%;
+  }
+  100% {
+    opacity: 0;
+    max-width: 0%;
+  }
+}

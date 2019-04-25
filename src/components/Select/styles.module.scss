@@ -1,0 +1,58 @@
+@import '../../styles/settings/colors';
+@import '../../styles/base';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  composes: body;
+  display: block;
+  outline: 0;
+  border: 0;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  height: 40px;
+  font-weight: 500;
+}
+
+.label {
+  composes: caption;
+  align-self: center;
+  opacity: .6;
+  margin-right: 20px;
+  width: 75px;
+  min-width: 75px;
+}
+
+.icon {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  width: 16px;
+}
+
+.errorBox {
+  composes: caption;
+  margin-left: 95px;
+  color: $color-red;
+}
+
+.withErrors {
+  opacity: 1;
+  color: $color-red;
+}

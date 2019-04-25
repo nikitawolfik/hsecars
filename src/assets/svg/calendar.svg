@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/calendar</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/calendar" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(1.000000, 0.000000)" fill="#000000" fill-rule="nonzero">
+            <path d="M18.8571429,2 L19,2 C20.6568542,2 22,3.34314575 22,5 L22,21 C22,22.6568542 20.6568542,24 19,24 L3,24 C1.34314575,24 2.02906125e-16,22.6568542 0,21 L0,5 C-2.02906125e-16,3.34314575 1.34314575,2 3,2 L3.14285714,2 L3.14285714,4.3047619 C3.14285714,5.46192995 4.08092719,6.4 5.23809524,6.4 C6.39526329,6.4 7.33333333,5.46192995 7.33333333,4.3047619 L7.33333333,2 L14.6666667,2 L14.6666667,4.3047619 C14.6666667,5.46192995 15.6047367,6.4 16.7619048,6.4 C17.9190728,6.4 18.8571429,5.46192995 18.8571429,4.3047619 L18.8571429,2 Z M2,7.5 L2,21.8 L20,21.8 L20,7.5 L2,7.5 Z" id="Combined-Shape"></path>
+            <g id="Group-2" transform="translate(4.500000, 9.000000)">
+                <rect id="Rectangle" x="0" y="0" width="3" height="3"></rect>
+                <rect id="Rectangle" x="5" y="0" width="3" height="3"></rect>
+                <rect id="Rectangle" x="10" y="0" width="3" height="3"></rect>
+                <rect id="Rectangle" x="5" y="4" width="3" height="3"></rect>
+                <rect id="Rectangle" x="10" y="4" width="3" height="3"></rect>
+                <rect id="Rectangle" x="10" y="8" width="3" height="3"></rect>
+                <rect id="Rectangle" x="0" y="4" width="3" height="3"></rect>
+                <rect id="Rectangle" x="5" y="8" width="3" height="3"></rect>
+            </g>
+            <rect id="Rectangle" x="4" y="0" width="2.5" height="5" rx="1.25"></rect>
+            <rect id="Rectangle" x="15.5" y="0" width="2.5" height="5" rx="1.25"></rect>
+        </g>
+    </g>
+</svg>
