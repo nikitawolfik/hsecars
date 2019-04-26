@@ -19,6 +19,10 @@
   width: 80%;
   text-align: center;
   font-size: 16px;
+
+  @include respond-to(md) {
+    margin: 4px 0;
+  }
 }
 
 .select:focus, .input:focus {
@@ -163,6 +167,10 @@ h2 {
   line-height: 14px;
   text-align: center;
   height: 30px;
+
+  @include respond-to(md) {
+    height: 12px;
+  }
 }
 
 .withError {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Form, Field } from 'react-final-form';
 import createDecorator from 'final-form-focus';
@@ -16,6 +17,8 @@ import {
   volumes,
   makesmodels,
   carToClass,
+  paramsSelectObj,
+  paramsIntObj,
 } from 'assets/constants';
 
 import {
@@ -88,15 +91,39 @@ const onSubmit = (setPrice, push) => (values) => {
   push(makeQuery(valuesQuery));
 };
 
-const generateFields = (values, baseValues) => (name) => {
-  if (name === 'Make') {
-    const options = paramsValues[name].sort().map(optionParam => (
-      <option
-        key={optionParam}
-      >
-        {optionParam}
-      </option>
-    ));
+const generateFields = values => (name) => {
+  if (name in paramsSelectObj) {
+    let options;
+    let optionsArray = [];
+
+    if (name === 'Make') {
+      options = paramsValues[name].filter(el => el !== 'Другая').sort().map(optionParam => (
+        <option
+          key={optionParam}
+        >
+          {optionParam}
+        </option>
+      ));
+    } else if (name === 'Model') {
+      options = !Object.keys(makeValues).includes(values.Make)
+        ? null
+        : makesmodels[values.Make].sort().map(optionParam => (
+          <option
+            key={optionParam}
+          >
+            {optionParam}
+          </option>
+        ));
+    } else {
+      options = paramsValues[name].sort().map(optionParam => (
+        <option
+          key={optionParam}
+        >
+          {optionParam}
+        </option>
+      ));
+    }
+
     return (
       <div className={styles.fieldWrapper}>
         <Field
@@ -116,7 +143,7 @@ const generateFields = (values, baseValues) => (name) => {
                     },
                   )}
                 >
-                  <option>Марка</option>
+                  <option>{paramsSelectObj[name].placeholder}</option>
                   {options}
                 </select>
               </div>
@@ -128,409 +155,33 @@ const generateFields = (values, baseValues) => (name) => {
     );
   }
 
-  if (name === 'Model') {
-    const options = !Object.keys(makeValues).includes(values.Make) ? null : makesmodels[values.Make].sort().map(optionParam => (
-      <option
-        key={optionParam}
+  return (
+    <div className={styles.fieldWrapper}>
+      <Field
+        name={name}
       >
-        {optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  disabled={values.Make === 'Марка'}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Модель</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
+        {({ input, meta }) => (
+          <div className={styles.inputInside}>
+            <div className={styles.inputMeasure}>
+              <input
+                {...input}
+                autoComplete="off"
+                type="number"
+                pattern="\d*"
+                placeholder={paramsIntObj[name].placeholder}
+                className={cx(styles.input,
+                  {
+                    [styles.withError]: meta.touched && meta.error,
+                  })}
+              />
+              <span className={styles.measure}>{paramsIntObj[name].measure}</span>
             </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Age') {
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <input
-                  {...input}
-                  type="number"
-                  pattern="\d*"
-                  placeholder={name}
-                  className={cx(styles.input,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    })}
-                />
-                <span className={styles.measure}>лет</span>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Body') {
-    const options = paramsValues[name].sort().map(optionParam => (
-      <option
-        key={optionParam}
-      >
-        {optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Тип кузова</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Color') {
-    const options = paramsValues[name].sort().map(optionParam => (
-      <option
-        key={optionParam}
-      >
-        {optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Цвет</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Drive') {
-    const options = ['Полный', 'Передний', 'Задний'].map(optionParam => (
-      <option
-        key={optionParam}
-      >
-        {optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Привод</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Mileage') {
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <input
-                  {...input}
-                  type="number"
-                  pattern="\d*"
-                  placeholder={name}
-                  className={cx(styles.input,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    })}
-                />
-                <span className={styles.measure}>км</span>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Owners') {
-    const options = ['1', '2', '3', '4'].map(optionParam => (
-      <option
-        key={optionParam}
-        value={optionParam}
-      >
-        {optionParam === '4' ? '4+' : optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Количество владельцев</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Power') {
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <input
-                  {...input}
-                  type="number"
-                  pattern="\d*"
-                  placeholder={name}
-                  className={cx(styles.input,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    })}
-                />
-                <span className={styles.measure}>л.с.</span>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Transmission') {
-    const options = ['Автомат', 'Механика'].map(optionParam => (
-      <option
-        key={optionParam}
-        value={optionParam === 'Автомат' ? 1 : 0}
-      >
-        {optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Трансмиссия</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Volume') {
-    const options = volumes.map(optionParam => (
-      <option
-        key={optionParam}
-        value={optionParam}
-      >
-        {optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Объем двигателя</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-
-  if (name === 'Gas') {
-    const options = ['Бензин', 'Другое'].map(optionParam => (
-      <option
-        key={optionParam}
-      >
-        {optionParam}
-      </option>
-    ));
-    return (
-      <div className={styles.fieldWrapper}>
-        <Field
-          name={name}
-        >
-          {({ input, meta }) => (
-            <div className={styles.inputInside}>
-              <div className={styles.inputMeasure}>
-                <select
-                  {...input}
-                  type="select"
-                  placeholder={name}
-                  className={cx(
-                    styles.select,
-                    {
-                      [styles.withError]: meta.touched && meta.error,
-                    },
-                  )}
-                >
-                  <option>Тип топлива</option>
-                  {options}
-                </select>
-              </div>
-              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
-            </div>
-          )}
-        </Field>
-      </div>
-    );
-  }
-  return null;
+            <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
+          </div>
+        )}
+      </Field>
+    </div>
+  );
 };
 
 
@@ -556,35 +207,35 @@ const Regression = ({ location: { search }, history: { push }}) => {
 
   let initialValues = {
     Make: 'Марка',
-    //Age: 7,
+    //  Age: 7,
     Body: 'Тип кузова',
     Color: 'Цвет',
     Drive: 'Привод',
-    //Mileage: 35000,
+    //  Mileage: 35000,
     Owners: 'Количество владельцев',
-    //Power: 123,
+    //  Power: 123,
     Transmission: 'Трансмиссия',
     Gas: 'Тип топлива',
     Volume: 'Объем двигателя',
   };
 
-  const baseValues = { ...initialValues };
+  //  const baseValues = { ...initialValues };
 
-  if (false) {
-   initialValues = {
-      Make: 'BMW',
-      Age: 7,
-      Body: 'седан',
-      Color: 'белый',
-      Drive: 'Передний',
-      Mileage: 35000,
-      Owners: '1',
-      Power: 123,
-      Transmission: '1',
-      Gas: 'Бензин',
-      Volume: '1.1',
-    };
-  }
+  //  if (false) {
+  //   initialValues = {
+  //      Make: 'BMW',
+  //      Age: 7,
+  //      Body: 'седан',
+  //      Color: 'белый',
+  //      Drive: 'Передний',
+  //      Mileage: 35000,
+  //      Owners: '1',
+  //      Power: 123,
+  //      Transmission: '1',
+  //      Gas: 'Бензин',
+  //      Volume: '1.1',
+  //    };
+  //  }
 
   if (fields) {
     initialValues = { ...fields };
@@ -601,46 +252,46 @@ const Regression = ({ location: { search }, history: { push }}) => {
               validate={validate}
               onSubmit={onSubmit(setPrice, push)}
               initialValues={initialValues}
-              render={({ handleSubmit, reset, submitting, pristine, values }) => {
-                //  submit = handleSubmit;
-                return (
-                  <form
-                    className={styles.form}
-                    onSubmit={handleSubmit}
-                  >
-                    <div className={styles.row}>
-                      {params.slice(0, 4).map(generateFields(values, baseValues))}
-                    </div>
-                    <div className={styles.row}>
-                      {params.slice(4, 8).map(generateFields(values, baseValues))}
-                    </div>
-                    <div className={styles.rowShort}>
-                      {params.slice(8, 12).map(generateFields(values, baseValues))}
-                    </div>
-                    <div className={styles.buttonWrapper}>
-                      <Button
-                        title="Submit"
-                        customStyle={styles.button}
-                        customTextStyle={styles.buttonText}
-                        type="submit"
-                        disabled={submitting}
-                        onClick={handleSubmit}
-                      />
-                      {width < md && (
-                        <div className={styles.buttonSeparator} />
-                      )}
-                      <Button
-                        title="Reset"
-                        customStyle={styles.buttonReset}
-                        customTextStyle={styles.buttonText}
-                        type="button"
-                        disabled={pristine}
-                        onClick={reset}
-                      />
-                    </div>
-                  </form>
-                );
-              }}
+              render={({ handleSubmit, reset, submitting, pristine, values }) => (
+                <form
+                  className={styles.form}
+                  onSubmit={handleSubmit}
+                  autoСomplete="off"
+                >
+                  <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
+                  <div className={styles.row}>
+                    {params.slice(0, 4).map(generateFields(values))}
+                  </div>
+                  <div className={styles.row}>
+                    {params.slice(4, 8).map(generateFields(values))}
+                  </div>
+                  <div className={styles.rowShort}>
+                    {params.slice(8, 12).map(generateFields(values))}
+                  </div>
+                  <div className={styles.buttonWrapper}>
+                    <Button
+                      title="Submit"
+                      customStyle={styles.button}
+                      customTextStyle={styles.buttonText}
+                      type="submit"
+                      disabled={submitting}
+                      onClick={handleSubmit}
+                    />
+                    {width < md && (
+                      <div className={styles.buttonSeparator} />
+                    )}
+                    <Button
+                      title="Reset"
+                      customStyle={styles.buttonReset}
+                      customTextStyle={styles.buttonText}
+                      type="button"
+                      disabled={pristine}
+                      onClick={reset}
+                    />
+                  </div>
+                </form>
+              )
+              }
             />
           </div>
 
@@ -669,6 +320,11 @@ const Regression = ({ location: { search }, history: { push }}) => {
       )}
     </WindowResizer>
   );
+};
+
+Regression.propTypes = {
+  location: PropTypes.shape({}),
+  history: PropTypes.shape({}),
 };
 
 export default Regression;

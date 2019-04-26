@@ -5,23 +5,9 @@ export default (values) => {
   const inputs = ['Power', 'Mileage', 'Age'];
   const options = ['Марка', 'Привод', 'Трансмиссия', 'Количество владельцев', 'Цвет', 'Тип кузова', 'Тип топлива', 'Объем двигателя'];
 
-  inputs.forEach((input) => {
-    if (!values[input]) {
-      errors[input] = 'Required';
-    } else if (Number.isNaN(parseInt(values[input], 10))) {
-      errors[input] = 'Enter a number';
-    } else if (values[input] < 0) {
-      errors[input] = 'Be more positive';
-    }
-  });
-
-  selects.forEach((select) => {
-    if (values[select]) {
-      if (options.some(el => values[select].includes(el))) {
-        errors[select] = 'Required';
-      }
-    }
-  });
+  if (values.Make !== 'Марка' && !values.Model) {
+    errors.Model = 'Required';
+  }
 
   if (values.Age > 20) {
     errors.Age = 'Hi, Grampa';
@@ -42,6 +28,24 @@ export default (values) => {
   if (values.Volume > 6) {
     errors.Volume = 'How much does it consume?!';
   }
+
+  inputs.forEach((input) => {
+    if (!values[input]) {
+      errors[input] = 'Required';
+    } else if (Number.isNaN(parseInt(values[input], 10))) {
+      errors[input] = 'Enter a number';
+    } else if (values[input] < 0) {
+      errors[input] = 'Be more positive';
+    }
+  });
+
+  selects.forEach((select) => {
+    if (values[select]) {
+      if (options.some(el => values[select].includes(el))) {
+        errors[select] = 'Required';
+      }
+    }
+  });
 
   return errors;
 };

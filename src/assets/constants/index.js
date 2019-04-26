@@ -1,6 +1,6 @@
 export { coefficients } from './coefficients';
 export { dataset } from './dataset';
-export { params } from './params';
+export { params, paramsSelectObj, paramsIntObj } from './params';
 export { bodies } from './bodies';
 export { colors } from './colors';
 export { drive } from './drive';
