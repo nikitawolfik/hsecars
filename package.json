@@ -1,11 +1,12 @@
 {
-  "name": "adjoy_front",
+  "name": "hse_cars",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "capitalize": "^2.0.0",
     "classnames": "^2.2.6",
     "final-form": "^4.11.0",
+    "final-form-focus": "^1.1.2",
     "humps": "^2.0.1",
     "memoize-one": "^5.0.2",
     "moment": "^2.24.0",

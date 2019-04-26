@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { Form, Field } from 'react-final-form';
+import createDecorator from 'final-form-focus';
+
 
 import {
   coefficients,
@@ -13,10 +15,25 @@ import {
   gas,
   volumes,
 } from 'assets/constants';
-import { Button, FormError } from 'components';
+import {
+  body,
+  bodyInverted,
+  color,
+  colorInverted,
+  gas as tgas,
+  gasInverted,
+  drives,
+  drivesInverted,
+} from 'assets/constants/translate';
+import { Button, WindowResizer } from 'components';
+import { md } from 'utils/breakpoints';
+import parseSearch from 'utils/parseSearch';
+import makeQuery from 'utils/makeQuery';
 import validate from './validate';
 
 import styles from './styles.module.scss';
+
+const focusOnError = createDecorator();
 
 const paramsValues = params.reduce((pv, cv) => {
   const test = dataset.reduce((pv1, cv1) => {
@@ -32,7 +49,7 @@ const paramsValues = params.reduce((pv, cv) => {
   return pv;
 }, {});
 
-const onSubmit = setPrice => (values) => {
+const onSubmit = (setPrice, push) => (values) => {
   const { Intercept } = coefficients;
   const Age = values.Age * coefficients.Age;
   const Body = coefficients.Body[bodies[values.Body]];
@@ -47,7 +64,21 @@ const onSubmit = setPrice => (values) => {
   const Volume = coefficients.Volume[values.Volume.slice(0, 1)];
   const price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
 
-  setPrice(price.toLocaleString('ru'));
+  if (price > 0) {
+    setPrice(price.toLocaleString('ru'));
+  } else {
+    setPrice('error');
+  }
+
+  const valuesQuery = {
+    ...values,
+    Body: body[values.Body],
+    Gas: tgas[values.Gas],
+    Color: color[values.Color],
+    Drive: drives[values.Drive],
+  };
+
+  push(makeQuery(valuesQuery));
 };
 
 const generateFields = (name) => {
@@ -101,7 +132,7 @@ const generateFields = (name) => {
               <div className={styles.inputMeasure}>
                 <input
                   {...input}
-                  type="text"
+                  type="number"
                   pattern="\d*"
                   placeholder={name}
                   className={cx(styles.input,
@@ -247,7 +278,7 @@ const generateFields = (name) => {
               <div className={styles.inputMeasure}>
                 <input
                   {...input}
-                  type="text"
+                  type="number"
                   pattern="\d*"
                   placeholder={name}
                   className={cx(styles.input,
@@ -316,7 +347,7 @@ const generateFields = (name) => {
               <div className={styles.inputMeasure}>
                 <input
                   {...input}
-                  type="text"
+                  type="number"
                   pattern="\d*"
                   placeholder={name}
                   className={cx(styles.input,
@@ -456,78 +487,137 @@ const generateFields = (name) => {
 };
 
 
-const Regression = () => {
+const Regression = ({ location: { search }, history: { push }}) => {
   const [price, setPrice] = useState(null);
+  const [fields, setFields] = useState(null);
+  //  let submit;
+
+  useEffect(() => {
+    const query = parseSearch(search);
+    if (query) {
+      const valuesQuery = {
+        ...query,
+        Body: bodyInverted[query.Body],
+        Gas: gasInverted[query.Gas],
+        Color: colorInverted[query.Color],
+        Drive: drivesInverted[query.Drive],
+      };
+      setFields(valuesQuery);
+    }
+  }, []);
+
+  let initialValues = {
+    Make: 'Марка',
+    //Age: 7,
+    Body: 'Тип кузова',
+    Color: 'Цвет',
+    Drive: 'Привод',
+    //Mileage: 35000,
+    Owners: 'Количество владельцев',
+    //Power: 123,
+    Transmission: 'Трансмиссия',
+    Gas: 'Тип топлива',
+    Volume: 'Объем двигателя',
+  };
+
+  if (false) {
+   initialValues = {
+      Make: 'BMW',
+      Age: 7,
+      Body: 'седан',
+      Color: 'белый',
+      Drive: 'Передний',
+      Mileage: 35000,
+      Owners: '1',
+      Power: 123,
+      Transmission: '1',
+      Gas: 'Бензин',
+      Volume: '1.1',
+    };
+  }
+
+  if (fields) {
+    initialValues = { ...fields };
+  }
+
   return (
-    <div className={styles.container}>
+    <WindowResizer>
+      {width => (
+        <div className={styles.container}>
 
-      <div className={styles.formWrapper}>
-        <Form
-          validate={validate}
-          onSubmit={onSubmit(setPrice)}
-          initialValues={{
-            Make: 'Марка',
-            //Age: 7,
-            Body: 'Тип кузова',
-            Color: 'Цвет',
-            Drive: 'Привод',
-            //Mileage: 35000,
-            Owners: 'Количество владельцев',
-            //Power: 123,
-            Transmission: 'Трансмиссия',
-            Gas: 'Тип топлива',
-            Volume: 'Объем двигателя',
-          }}
-          render={({ handleSubmit, form, submitError }) => (
-            <form
-              className={styles.form}
-              onSubmit={handleSubmit}
-            >
-              <div className={styles.errorWrapper}>
-                {submitError && (
-                  <FormError>{submitError}</FormError>
-                )}
-              </div>
-              <div className={styles.row}>
-                {params.slice(0, 5).map(generateFields)}
-              </div>
-              <div className={styles.row}>
-                {params.slice(5, 9).map(generateFields)}
-              </div>
-              <div className={styles.rowShort}>
-                {params.slice(9, 12).map(generateFields)}
-              </div>
-              <div className={styles.buttonWrapper}>
-                <Button
-                  title="Submit"
-                  customStyle={styles.button}
-                  customTextStyle={styles.buttonText}
-                  type="submit"
-                  onClick={handleSubmit}
-                />
-                <Button
-                  title="Reset"
-                  customStyle={styles.buttonReset}
-                  customTextStyle={styles.buttonText}
-                  type="button"
-                  onClick={() => form.reset()}
-                />
-              </div>
-            </form>
-          )}
-        />
-      </div>
+          <div className={styles.formWrapper}>
+            <Form
+              decorators={[focusOnError]}
+              validate={validate}
+              onSubmit={onSubmit(setPrice, push)}
+              initialValues={initialValues}
+              render={({ handleSubmit, reset, submitting, pristine }) => {
+                //  submit = handleSubmit;
+                return (
+                  <form
+                    className={styles.form}
+                    onSubmit={handleSubmit}
+                  >
+                    <div className={styles.row}>
+                      {params.slice(0, 5).map(generateFields)}
+                    </div>
+                    <div className={styles.row}>
+                      {params.slice(5, 9).map(generateFields)}
+                    </div>
+                    <div className={styles.rowShort}>
+                      {params.slice(9, 12).map(generateFields)}
+                    </div>
+                    <div className={styles.buttonWrapper}>
+                      <Button
+                        title="Submit"
+                        customStyle={styles.button}
+                        customTextStyle={styles.buttonText}
+                        type="submit"
+                        disabled={submitting}
+                        onClick={handleSubmit}
+                      />
+                      {width < md && (
+                        <div className={styles.buttonSeparator} />
+                      )}
+                      <Button
+                        title="Reset"
+                        customStyle={styles.buttonReset}
+                        customTextStyle={styles.buttonText}
+                        type="button"
+                        disabled={pristine}
+                        onClick={reset}
+                      />
+                    </div>
+                  </form>
+                );
+              }}
+            />
+          </div>
 
-      <div className={styles.price}>
-        {!price && (
-          <h2>Выберите параметры автомобиля, чтобы рассчитать стоимость</h2>
-        )}
-        {price && (
-          <h2>Примерная стоимость: <strong>{price} рублей.</strong></h2>
-        )}
-      </div>
+          <div className={styles.price}>
+            {!price && (
+              <h2 className={styles.priceText}>
+                Выберите параметры автомобиля, чтобы рассчитать стоимость
+              </h2>
+            )}
 
-    </div>
+            {price && price !== 'error' && (
+              <h2 className={styles.priceText}>
+                Примерная стоимость: <strong>{price} рублей.</strong>
+              </h2>
+            )}
+
+            {price && price === 'error' && (
+              <h2 className={styles.priceText}>
+                Ошибка при расчете стоимости.
+              </h2>
+            )}
+          </div>
+
+        </div>
+
+      )}
+    </WindowResizer>
   );
 };
 

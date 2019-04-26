@@ -10,6 +10,8 @@ export default (values) => {
       errors[input] = 'Required';
     } else if (Number.isNaN(parseInt(values[input], 10))) {
       errors[input] = 'Enter a number';
+    } else if (values[input] < 0) {
+      errors[input] = 'Be more positive';
     }
   });
 
@@ -25,6 +27,10 @@ export default (values) => {
 
   if (values.Power > 400) {
     errors.Power = 'Oh, boi';
+  }
+
+  if (values.Power < 40) {
+    errors.Power = 'Regular horse\'d be faster';
   }
 
   if (values.Mileage > 140000) {

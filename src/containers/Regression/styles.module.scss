@@ -1,6 +1,7 @@
 @import '../../styles/settings/colors';
 @import '../../styles/global.scss';
 @import '../../styles/base.scss';
+@import '../../styles/mixins/responsive';
 
 .container {
   margin-top: 60px;
@@ -54,6 +55,10 @@
   padding: 16px 0px 16px 24px;
   border-radius: 6px;
   box-shadow: $shadow-3;
+
+  @include respond-to(md) {
+    padding: 8px;
+  }
 }
 
 .formWrapper {
@@ -64,7 +69,12 @@
 
 .fieldWrapper {
   display: flex;
-  width: 25%
+  width: 25%;
+
+  @include respond-to(md) {
+    width: 100%;
+    min-width: 320px;
+  }
 }
 
 .row, .rowShort {
@@ -72,6 +82,10 @@
   flex-direction: row;
   width: 100%;
   justify-content: left;
+
+  @include respond-to(md) {
+    flex-direction: column;
+  }
 }
 
 .rowShort {
@@ -80,6 +94,11 @@
 
 .rowShort .fieldWrapper {
   width: 30%;
+
+  @include respond-to(md) {
+    width: 100%;
+    min-width: 320px;
+  }
 }
 
 .button {
@@ -131,6 +150,10 @@ h2 {
   max-width: 100%;
   flex-direction: column;
   width: 100%;
+
+  @include respond-to(md) {
+    align-items: center;
+  }
 }
 
 .error {
@@ -148,6 +171,11 @@ h2 {
 
 .inputMeasure {
   display: flex;
+
+  @include respond-to(md) {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .buttonWrapper {
@@ -156,4 +184,26 @@ h2 {
   justify-content: space-around;
   align-items: center;
   width: 50%;
+
+  @include respond-to(md) {
+    min-width: 50%;
+    width: 80%;
+  }
+}
+
+.priceText {
+  @include respond-to(md) {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+
+.buttonSeparator {
+  width: 30px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
