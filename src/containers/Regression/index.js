@@ -135,6 +135,7 @@ const generateFields = values => (name) => {
                   {...input}
                   type="select"
                   placeholder={name}
+                  disabled={name === 'Model' && !values.Make}
                   className={cx(
                     styles.select,
                     {
@@ -218,7 +219,7 @@ const Regression = ({ location: { search }, history: { push }}) => {
     Volume: 'Объем двигателя',
   };
 
-  //  const baseValues = { ...initialValues };
+  const baseValues = { ...initialValues };
 
   //  if (false) {
   //   initialValues = {
@@ -251,44 +252,52 @@ const Regression = ({ location: { search }, history: { push }}) => {
               validate={validate}
               onSubmit={onSubmit(setPrice, push)}
               initialValues={initialValues}
-              render={({ handleSubmit, reset, submitting, pristine, values }) => (
-                <form
-                  className={styles.form}
-                  onSubmit={handleSubmit}
-                >
-                  <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
-                  <div className={styles.row}>
-                    {params.slice(0, 4).map(generateFields(values))}
-                  </div>
-                  <div className={styles.row}>
-                    {params.slice(4, 8).map(generateFields(values))}
-                  </div>
-                  <div className={styles.rowShort}>
-                    {params.slice(8, 12).map(generateFields(values))}
-                  </div>
-                  <div className={styles.buttonWrapper}>
-                    <Button
-                      title="Submit"
-                      customStyle={styles.button}
-                      customTextStyle={styles.buttonText}
-                      type="submit"
-                      disabled={submitting}
-                      onClick={handleSubmit}
-                    />
-                    {width < md && (
-                      <div className={styles.buttonSeparator} />
-                    )}
-                    <Button
-                      title="Reset"
-                      customStyle={styles.buttonReset}
-                      customTextStyle={styles.buttonText}
-                      type="button"
-                      disabled={pristine}
-                      onClick={reset}
-                    />
-                  </div>
-                </form>
-              )
+              render={({ handleSubmit, reset, submitting, pristine, values }) => {
+                let isFilled = 0;
+                Object.keys(baseValues).forEach((field) => {
+                  if (values[field] !== baseValues[field]) {
+                    isFilled += 1;
+                  }
+                });
+                return (
+                  <form
+                    className={styles.form}
+                    onSubmit={handleSubmit}
+                  >
+                    <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
+                    <div className={styles.row}>
+                      {params.slice(0, 4).map(generateFields(values))}
+                    </div>
+                    <div className={styles.row}>
+                      {params.slice(4, 8).map(generateFields(values))}
+                    </div>
+                    <div className={styles.rowShort}>
+                      {params.slice(8, 12).map(generateFields(values))}
+                    </div>
+                    <div className={styles.buttonWrapper}>
+                      <Button
+                        title="Submit"
+                        customStyle={styles.button}
+                        customTextStyle={styles.buttonText}
+                        type="submit"
+                        disabled={submitting}
+                        onClick={handleSubmit}
+                      />
+                      {width < md && (
+                        <div className={styles.buttonSeparator} />
+                      )}
+                      <Button
+                        title="Reset"
+                        customStyle={styles.buttonReset}
+                        customTextStyle={styles.buttonText}
+                        type="button"
+                        disabled={pristine && !isFilled}
+                        onClick={reset}
+                      />
+                    </div>
+                  </form>
+                );
+              }
               }
             />
           </div>
