@@ -14,7 +14,10 @@ import {
   drive,
   gas,
   volumes,
+  makesmodels,
+  carToClass,
 } from 'assets/constants';
+
 import {
   body,
   bodyInverted,
@@ -25,6 +28,7 @@ import {
   drives,
   drivesInverted,
 } from 'assets/constants/translate';
+
 import { Button, WindowResizer } from 'components';
 import { md } from 'utils/breakpoints';
 import parseSearch from 'utils/parseSearch';
@@ -50,6 +54,8 @@ const paramsValues = params.reduce((pv, cv) => {
 }, {});
 
 const onSubmit = (setPrice, push) => (values) => {
+  const carClass = carToClass[`${values.Make} ${values.Model}`];
+
   const { Intercept } = coefficients;
   const Age = values.Age * coefficients.Age;
   const Body = coefficients.Body[bodies[values.Body]];
@@ -62,7 +68,8 @@ const onSubmit = (setPrice, push) => (values) => {
   const Power = values.Power * coefficients.Power;
   const Transmission = coefficients.Transmisson[values.Transmission];
   const Volume = coefficients.Volume[values.Volume.slice(0, 1)];
-  const price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+  const Class = coefficients.Class[carClass];
+  const price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume + Class);
 
   if (price > 0) {
     setPrice(price.toLocaleString('ru'));
@@ -81,7 +88,7 @@ const onSubmit = (setPrice, push) => (values) => {
   push(makeQuery(valuesQuery));
 };
 
-const generateFields = (name) => {
+const generateFields = (values, baseValues) => (name) => {
   if (name === 'Make') {
     const options = paramsValues[name].sort().map(optionParam => (
       <option
@@ -110,6 +117,46 @@ const generateFields = (name) => {
                   )}
                 >
                   <option>Марка</option>
+                  {options}
+                </select>
+              </div>
+              <span className={styles.error}>{meta.error && meta.touched && meta.error}</span>
+            </div>
+          )}
+        </Field>
+      </div>
+    );
+  }
+
+  if (name === 'Model') {
+    const options = !Object.keys(makeValues).includes(values.Make) ? null : makesmodels[values.Make].sort().map(optionParam => (
+      <option
+        key={optionParam}
+      >
+        {optionParam}
+      </option>
+    ));
+    return (
+      <div className={styles.fieldWrapper}>
+        <Field
+          name={name}
+        >
+          {({ input, meta }) => (
+            <div className={styles.inputInside}>
+              <div className={styles.inputMeasure}>
+                <select
+                  {...input}
+                  disabled={values.Make === 'Марка'}
+                  type="select"
+                  placeholder={name}
+                  className={cx(
+                    styles.select,
+                    {
+                      [styles.withError]: meta.touched && meta.error,
+                    },
+                  )}
+                >
+                  <option>Модель</option>
                   {options}
                 </select>
               </div>
@@ -497,6 +544,7 @@ const Regression = ({ location: { search }, history: { push }}) => {
     if (query) {
       const valuesQuery = {
         ...query,
+        Make: query.Make.replace('%20', ' '),
         Body: bodyInverted[query.Body],
         Gas: gasInverted[query.Gas],
         Color: colorInverted[query.Color],
@@ -519,6 +567,8 @@ const Regression = ({ location: { search }, history: { push }}) => {
     Gas: 'Тип топлива',
     Volume: 'Объем двигателя',
   };
+
+  const baseValues = { ...initialValues };
 
   if (false) {
    initialValues = {
@@ -551,7 +601,7 @@ const Regression = ({ location: { search }, history: { push }}) => {
               validate={validate}
               onSubmit={onSubmit(setPrice, push)}
               initialValues={initialValues}
-              render={({ handleSubmit, reset, submitting, pristine }) => {
+              render={({ handleSubmit, reset, submitting, pristine, values }) => {
                 //  submit = handleSubmit;
                 return (
                   <form
@@ -559,13 +609,13 @@ const Regression = ({ location: { search }, history: { push }}) => {
                     onSubmit={handleSubmit}
                   >
                     <div className={styles.row}>
-                      {params.slice(0, 5).map(generateFields)}
+                      {params.slice(0, 4).map(generateFields(values, baseValues))}
                     </div>
                     <div className={styles.row}>
-                      {params.slice(5, 9).map(generateFields)}
+                      {params.slice(4, 8).map(generateFields(values, baseValues))}
                     </div>
                     <div className={styles.rowShort}>
-                      {params.slice(9, 12).map(generateFields)}
+                      {params.slice(8, 12).map(generateFields(values, baseValues))}
                     </div>
                     <div className={styles.buttonWrapper}>
                       <Button

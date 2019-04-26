@@ -16,8 +16,10 @@ export default (values) => {
   });
 
   selects.forEach((select) => {
-    if (options.some(el => values[select].includes(el))) {
-      errors[select] = 'Required';
+    if (values[select]) {
+      if (options.some(el => values[select].includes(el))) {
+        errors[select] = 'Required';
+      }
     }
   });
 
