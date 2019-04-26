@@ -75,7 +75,8 @@ const onSubmit = (setPrice, push) => (values) => {
   const price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume + Class);
 
   if (price > 0) {
-    setPrice(price.toLocaleString('ru'));
+    const strPrice = price.toLocaleString('ru');
+    setPrice(strPrice.slice(0, strPrice.length - 4));
   } else {
     setPrice('error');
   }
