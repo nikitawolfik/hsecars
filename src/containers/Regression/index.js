@@ -69,7 +69,7 @@ const onSubmit = (setPrice, push) => (values) => {
   const Mileage = values.Mileage * coefficients.Mileage;
   const Owners = coefficients.Owners[values.Owners];
   const Power = values.Power * coefficients.Power;
-  const Transmission = coefficients.Transmisson[values.Transmission];
+  const Transmission = coefficients.Transmisson[values.Transmission === 'Автомат' ? 1 : 0];
   const Volume = coefficients.Volume[values.Volume.slice(0, 1)];
   const Class = coefficients.Class[carClass];
   const price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume + Class);
@@ -93,39 +93,38 @@ const onSubmit = (setPrice, push) => (values) => {
 
 const generateFields = values => (name) => {
   if (name in paramsSelectObj) {
-    let options;
     let optionsArray = [];
 
     if (name === 'Make') {
-      options = paramsValues[name].filter(el => el !== 'Другая').sort().map(optionParam => (
-        <option
-          key={optionParam}
-        >
-          {optionParam}
-        </option>
-      ));
+      optionsArray = paramsValues[name].filter(el => el !== 'Другая');
     } else if (name === 'Model') {
-      options = !Object.keys(makeValues).includes(values.Make)
-        ? null
-        : makesmodels[values.Make].sort().map(optionParam => (
-          <option
-            key={optionParam}
-          >
-            {optionParam}
-          </option>
-        ));
+      optionsArray = !Object.keys(makeValues).includes(values.Make)
+        ? []
+        : makesmodels[values.Make];
+    } else if (name === 'Drive') {
+      optionsArray = ['Полный', 'Передний', 'Задний'];
+    } else if (name === 'Owners') {
+      optionsArray = ['1', '2', '3', '4'];
+    } else if (name === 'Transmission') {
+      optionsArray = ['Автомат', 'Механика'];
+    } else if (name === 'Volume') {
+      optionsArray = [...volumes];
+    } else if (name === 'Gas') {
+      optionsArray = ['Бензин', 'Другое'];
     } else {
-      options = paramsValues[name].sort().map(optionParam => (
-        <option
-          key={optionParam}
-        >
-          {optionParam}
-        </option>
-      ));
+      optionsArray = paramsValues[name];
     }
 
+    const options = optionsArray.sort().map(optionParam => (
+      <option
+        key={optionParam}
+      >
+        {optionParam}
+      </option>
+    ));
+
     return (
-      <div className={styles.fieldWrapper}>
+      <div className={styles.fieldWrapper} key={name}>
         <Field
           name={name}
         >
@@ -156,7 +155,7 @@ const generateFields = values => (name) => {
   }
 
   return (
-    <div className={styles.fieldWrapper}>
+    <div className={styles.fieldWrapper} key={name}>
       <Field
         name={name}
       >
@@ -256,7 +255,6 @@ const Regression = ({ location: { search }, history: { push }}) => {
                 <form
                   className={styles.form}
                   onSubmit={handleSubmit}
-                  autoСomplete="off"
                 >
                   <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
                   <div className={styles.row}>
