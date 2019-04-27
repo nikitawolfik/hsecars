@@ -1,7 +1,8 @@
-export default (values) => {
+export default possibleValues => (values) => {
   const errors = {};
 
   const selects = ['Make', 'Body', 'Color', 'Drive', 'Owners', 'Transmission', 'Gas', 'Volume'];
+  const changingSelects = ['Body', 'Volume'];
   const inputs = ['Power', 'Mileage', 'Age'];
   const options = ['Марка', 'Привод', 'Трансмиссия', 'Количество владельцев', 'Цвет', 'Тип кузова', 'Тип топлива', 'Объем двигателя'];
 
@@ -36,6 +37,12 @@ export default (values) => {
       errors[input] = 'Enter a number';
     } else if (values[input] < 0) {
       errors[input] = 'Be more positive';
+    }
+  });
+
+  changingSelects.forEach((select) => {
+    if (!possibleValues[select].includes(values[select])) {
+      errors[select] = 'Choose wisely';
     }
   });
 

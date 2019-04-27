@@ -143,8 +143,9 @@ const onSubmit = (setPrice, push) => (values) => {
   }
 
   if (price > 0) {
-    const strPrice = price.toLocaleString('ru');
-    setPrice(strPrice.slice(0, strPrice.length - 4));
+    const strPrice = parseInt(price.toFixed(0), 10).toLocaleString('ru');
+    //  setPrice(strPrice.slice(0, strPrice.length - 4));
+    setPrice(strPrice);
   } else {
     setPrice('error');
   }
@@ -160,7 +161,7 @@ const onSubmit = (setPrice, push) => (values) => {
   push(makeQuery(valuesQuery));
 };
 
-const generateFields = values => (name) => {
+const generateFields = (values, possibleValues, setPossibleValues) => (name) => {
   if (name in paramsSelectObj) {
     let optionsArray = [];
 
@@ -200,6 +201,12 @@ const generateFields = values => (name) => {
           const num = parseFloat(i).toFixed(1);
           optionsArray.push(num);
         }
+        if (JSON.stringify(possibleValues.Volume) !== JSON.stringify(optionsArray)) {
+          setPossibleValues({
+            ...possibleValues,
+            Volume: optionsArray,
+          });
+        }
       }
 
       if (name === 'Body') {
@@ -214,6 +221,12 @@ const generateFields = values => (name) => {
           }
           return pv;
         }, []);
+        if (JSON.stringify(possibleValues.Body) !== JSON.stringify(optionsArray)) {
+          setPossibleValues({
+            ...possibleValues,
+            Body: optionsArray,
+          });
+        }
       }
     }
 
@@ -302,6 +315,10 @@ const generateFields = values => (name) => {
 const Regression = ({ location: { search }, history: { push } }) => {
   const [price, setPrice] = useState(null);
   const [fields, setFields] = useState(null);
+  const [possibleValues, setPossibleValues] = useState({
+    Body: [],
+    Volume: [],
+  });
   //  let submit;
 
   useEffect(() => {
@@ -364,7 +381,7 @@ const Regression = ({ location: { search }, history: { push } }) => {
           <div className={styles.formWrapper}>
             <Form
               decorators={[focusOnError]}
-              validate={validate}
+              validate={validate(possibleValues)}
               onSubmit={onSubmit(setPrice, push)}
               initialValues={initialValues}
               render={({ handleSubmit, reset, submitting, pristine, values }) => {
@@ -381,13 +398,13 @@ const Regression = ({ location: { search }, history: { push } }) => {
                   >
                     <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
                     <div className={styles.row}>
-                      {params.slice(0, 4).map(generateFields(values))}
+                      {params.slice(0, 4).map(generateFields(values, possibleValues, setPossibleValues))}
                     </div>
                     <div className={styles.row}>
-                      {params.slice(4, 8).map(generateFields(values))}
+                      {params.slice(4, 8).map(generateFields(values, possibleValues, setPossibleValues))}
                     </div>
                     <div className={styles.rowShort}>
-                      {params.slice(8, 12).map(generateFields(values))}
+                      {params.slice(8, 12).map(generateFields(values, possibleValues, setPossibleValues))}
                     </div>
                     <div className={styles.buttonWrapper}>
                       <Button
