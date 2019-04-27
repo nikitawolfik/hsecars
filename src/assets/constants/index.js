@@ -1,8 +1,10 @@
 export {
   coefficients,
   coefficientsB,
+  coefficientsC,
+  coefficientsSuv,
+  coefficientsCross,
 } from './coefficients';
-export { dataset } from './dataset';
 export { datasetnew } from './datasetnew';
 export { params, paramsSelectObj, paramsIntObj } from './params';
 export { bodies } from './bodies';

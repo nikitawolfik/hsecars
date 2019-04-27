@@ -8,6 +8,9 @@ import createDecorator from 'final-form-focus';
 import {
   coefficients,
   coefficientsB,
+  coefficientsC,
+  coefficientsSuv,
+  coefficientsCross,
   datasetnew,
   params,
   makeValues,
@@ -60,7 +63,7 @@ const paramsValues = params.reduce((pv, cv) => {
 const onSubmit = (setPrice, push) => (values) => {
   const carClass = carToClass[`${values.Make} ${values.Model}`];
 
-  let { Intercept } = coefficients;
+  const { Intercept } = coefficients;
   let Age = values.Age * coefficients.Age;
   let Body = coefficients.Body[bodies[values.Body]];
   let Color = coefficients.Color[colors[values.Color]];
@@ -89,6 +92,54 @@ const onSubmit = (setPrice, push) => (values) => {
     Transmission = coefficientsB.Transmisson[values.Transmission];
     Volume = coefficientsB.Volume[values.Volume.slice(0, 1)];
     price = (InterceptB + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+  }
+
+  if (carClass === 'c') {
+    const { Intercept: InterceptC } = coefficientsC;
+    Age = values.Age * coefficientsC.Age;
+    Body = coefficientsC.Body[bodies[values.Body]];
+    Color = coefficientsC.Color[colors[values.Color]];
+    Drive = coefficientsC.Drive[drive[values.Drive]];
+    Gas = coefficientsC.Gas[gas[values.Gas]];
+    Make = coefficientsC.Make[makeValues[values.Make]];
+    Mileage = values.Mileage * coefficientsC.Mileage;
+    Owners = coefficientsC.Owners[values.Owners];
+    Power = values.Power * coefficientsC.Power;
+    Transmission = coefficientsC.Transmisson[values.Transmission];
+    Volume = coefficientsC.Volume[values.Volume.slice(0, 1)];
+    price = (InterceptC + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+  }
+
+  if (carClass === 'suv') {
+    const { Intercept: InterceptSuv } = coefficientsSuv;
+    Age = values.Age * coefficientsSuv.Age;
+    Body = coefficientsSuv.Body[bodies[values.Body]];
+    Color = coefficientsSuv.Color[colors[values.Color]];
+    Drive = coefficientsSuv.Drive[drive[values.Drive]];
+    Gas = coefficientsSuv.Gas[gas[values.Gas]];
+    Make = coefficientsSuv.Make[makeValues[values.Make]];
+    Mileage = values.Mileage * coefficientsSuv.Mileage;
+    Owners = coefficientsSuv.Owners[values.Owners];
+    Power = values.Power * coefficientsSuv.Power;
+    Transmission = coefficientsSuv.Transmisson[values.Transmission];
+    Volume = coefficientsSuv.Volume[values.Volume.slice(0, 1)];
+    price = (InterceptSuv + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+  }
+
+  if (carClass === 'cross') {
+    const { Intercept: InterceptCross } = coefficientsCross;
+    Age = values.Age * coefficientsCross.Age;
+    Body = coefficientsCross.Body[bodies[values.Body]];
+    Color = coefficientsCross.Color[colors[values.Color]];
+    Drive = coefficientsCross.Drive[drive[values.Drive]];
+    Gas = coefficientsCross.Gas[gas[values.Gas]];
+    Make = coefficientsCross.Make[makeValues[values.Make]];
+    Mileage = values.Mileage * coefficientsCross.Mileage;
+    Owners = coefficientsCross.Owners[values.Owners];
+    Power = values.Power * coefficientsCross.Power;
+    Transmission = coefficientsCross.Transmisson[values.Transmission];
+    Volume = coefficientsCross.Volume[values.Volume.slice(0, 1)];
+    price = (InterceptCross + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
   }
 
   if (price > 0) {
@@ -135,7 +186,7 @@ const generateFields = values => (name) => {
 
     const segment = carToClass[`${values.Make} ${values.Model}`] || null;
 
-    if (segment === 'b') {
+    if (segment === 'b' || segment === 'c' || segment === 'suv' || segment === 'cross') {
       if (name === 'Volume') {
         const optionsAll = datasetnew
           .filter(car => car.segment === segment)
@@ -145,7 +196,7 @@ const generateFields = values => (name) => {
         const [first, last] = [optionsAll[0], optionsAll[optionsAll.length - 1]];
         const [min, max] = [parseFloat(first), parseFloat(last)];
         optionsArray = [];
-        for (let i = min; i <= max + 0.1; i += 0.1) {
+        for (let i = min; i < max; i += 0.1) {
           const num = parseFloat(i).toFixed(1);
           optionsArray.push(num);
         }
