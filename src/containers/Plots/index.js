@@ -1,9 +1,14 @@
 import React from 'react';
 
-const Plots = () => (
-  <div>
-    Plots
-  </div>
-);
+
+const Plots = () => {
+
+  return (
+    <div>
+      Plots
+
+    </div>
+  );
+};
 
 export default Plots;

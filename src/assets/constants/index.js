@@ -1,5 +1,9 @@
-export { coefficients } from './coefficients';
+export {
+  coefficients,
+  coefficientsB,
+} from './coefficients';
 export { dataset } from './dataset';
+export { datasetnew } from './datasetnew';
 export { params, paramsSelectObj, paramsIntObj } from './params';
 export { bodies } from './bodies';
 export { colors } from './colors';

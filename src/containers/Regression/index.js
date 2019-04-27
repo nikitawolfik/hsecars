@@ -7,7 +7,8 @@ import createDecorator from 'final-form-focus';
 
 import {
   coefficients,
-  dataset,
+  coefficientsB,
+  datasetnew,
   params,
   makeValues,
   bodies,
@@ -43,7 +44,7 @@ import styles from './styles.module.scss';
 const focusOnError = createDecorator();
 
 const paramsValues = params.reduce((pv, cv) => {
-  const test = dataset.reduce((pv1, cv1) => {
+  const test = datasetnew.reduce((pv1, cv1) => {
     if (!pv1) {
       pv1.push(cv1[cv]);
     }
@@ -59,20 +60,36 @@ const paramsValues = params.reduce((pv, cv) => {
 const onSubmit = (setPrice, push) => (values) => {
   const carClass = carToClass[`${values.Make} ${values.Model}`];
 
-  const { Intercept } = coefficients;
-  const Age = values.Age * coefficients.Age;
-  const Body = coefficients.Body[bodies[values.Body]];
-  const Color = coefficients.Color[colors[values.Color]];
-  const Drive = coefficients.Drive[drive[values.Drive]];
-  const Gas = coefficients.Gas[gas[values.Gas]];
-  const Make = coefficients.Make[makeValues[values.Make]];
-  const Mileage = values.Mileage * coefficients.Mileage;
-  const Owners = coefficients.Owners[values.Owners];
-  const Power = values.Power * coefficients.Power;
-  const Transmission = coefficients.Transmisson[values.Transmission === 'Автомат' ? 1 : 0];
-  const Volume = coefficients.Volume[values.Volume.slice(0, 1)];
+  let { Intercept } = coefficients;
+  let Age = values.Age * coefficients.Age;
+  let Body = coefficients.Body[bodies[values.Body]];
+  let Color = coefficients.Color[colors[values.Color]];
+  let Drive = coefficients.Drive[drive[values.Drive]];
+  let Gas = coefficients.Gas[gas[values.Gas]];
+  let Make = coefficients.Make[makeValues[values.Make]];
+  let Mileage = values.Mileage * coefficients.Mileage;
+  let Owners = coefficients.Owners[values.Owners];
+  let Power = values.Power * coefficients.Power;
+  let Transmission = coefficients.Transmisson[values.Transmission === 'Автомат' ? 1 : 0];
+  let Volume = coefficients.Volume[values.Volume.slice(0, 1)];
   const Class = coefficients.Class[carClass];
-  const price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume + Class);
+  let price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume + Class);
+
+  if (carClass === 'b') {
+    const { Intercept: InterceptB } = coefficientsB;
+    Age = values.Age * coefficientsB.Age;
+    Body = coefficientsB.Body[bodies[values.Body]];
+    Color = coefficientsB.Color[colors[values.Color]];
+    Drive = coefficientsB.Drive[drive[values.Drive]];
+    Gas = coefficientsB.Gas[gas[values.Gas]];
+    Make = coefficientsB.Make[makeValues[values.Make]];
+    Mileage = values.Mileage * coefficientsB.Mileage;
+    Owners = coefficientsB.Owners[values.Owners];
+    Power = values.Power * coefficientsB.Power;
+    Transmission = coefficientsB.Transmisson[values.Transmission];
+    Volume = coefficientsB.Volume[values.Volume.slice(0, 1)];
+    price = (InterceptB + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+  }
 
   if (price > 0) {
     const strPrice = price.toLocaleString('ru');
@@ -116,13 +133,58 @@ const generateFields = values => (name) => {
       optionsArray = paramsValues[name];
     }
 
-    const options = optionsArray.sort().map(optionParam => (
+    const segment = carToClass[`${values.Make} ${values.Model}`] || null;
+
+    if (segment === 'b') {
+      if (name === 'Volume') {
+        const optionsAll = datasetnew
+          .filter(car => car.segment === segment)
+          .map(car => car[name])
+          .filter(param => param !== 'null')
+          .sort();
+        const [first, last] = [optionsAll[0], optionsAll[optionsAll.length - 1]];
+        const [min, max] = [parseFloat(first), parseFloat(last)];
+        optionsArray = [];
+        for (let i = min; i <= max + 0.1; i += 0.1) {
+          const num = parseFloat(i).toFixed(1);
+          optionsArray.push(num);
+        }
+      }
+
+      if (name === 'Body') {
+        const optionsAll = datasetnew
+          .filter(car => car.segment === segment)
+          .map(car => car[name])
+          .filter(param => param !== 'null')
+          .sort();
+        optionsArray = optionsAll.reduce((pv, cv) => {
+          if (!pv.includes(cv)) {
+            pv.push(cv);
+          }
+          return pv;
+        }, []);
+      }
+    }
+
+    let options = optionsArray.sort().map(optionParam => (
       <option
         key={optionParam}
       >
         {optionParam}
       </option>
     ));
+
+    if (name === 'Transmission') {
+      options = optionsArray.sort().map(optionParam => (
+        <option
+          value={optionParam === 'Автомат' ? 1 : 0}
+          key={optionParam}
+        >
+          {optionParam}
+        </option>
+      ));
+    }
+
 
     return (
       <div className={styles.fieldWrapper} key={name}>
@@ -136,7 +198,7 @@ const generateFields = values => (name) => {
                   {...input}
                   type="select"
                   placeholder={name}
-                  disabled={name === 'Model' && !values.Make}
+                  disabled={name === 'Model' && values.Make === 'Марка'}
                   className={cx(
                     styles.select,
                     {
@@ -186,7 +248,7 @@ const generateFields = values => (name) => {
 };
 
 
-const Regression = ({ location: { search }, history: { push }}) => {
+const Regression = ({ location: { search }, history: { push } }) => {
   const [price, setPrice] = useState(null);
   const [fields, setFields] = useState(null);
   //  let submit;
@@ -197,6 +259,7 @@ const Regression = ({ location: { search }, history: { push }}) => {
       const valuesQuery = {
         ...query,
         Make: query.Make.replace('%20', ' '),
+        Model: query.Model.replace('%20', ' '),
         Body: bodyInverted[query.Body],
         Gas: gasInverted[query.Gas],
         Color: colorInverted[query.Color],
