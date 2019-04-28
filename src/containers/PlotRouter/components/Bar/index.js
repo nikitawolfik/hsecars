@@ -74,6 +74,9 @@ const Plots = () => {
       y: temp2.map(car => parseInt(car.value, 10)),
       x: temp2.map(car => car.name),
       type: 'bar',
+      marker: {
+        color: temp2.map(() => 'rgba(45,95,230, 0.5)'),
+      },
     };
 
     return (
