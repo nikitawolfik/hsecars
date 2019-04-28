@@ -17,6 +17,12 @@ const paramsSelectObj = {
   segment: {
     placeholder: 'Класс',
   },
+  Power: {
+    placeholder: 'Мощность',
+  },
+  Age: {
+    placeholder: 'Возраст',
+  },
 };
 delete paramsSelectObj.Model;
 delete paramsSelectObj.Gas;
@@ -57,8 +63,8 @@ const Plots = () => {
       return pv;
     }, {});
     const keys = Object.keys(temp);
-    if (param === 'Volume' || param === 'Drive' || param === 'Transmission') {
-      keys.sort();
+    if (param === 'Volume' || param === 'Drive' || param === 'Transmission' || param === 'Age' || param === 'Power') {
+      keys.sort((a, b) => parseFloat(a) - parseFloat(b));
     }
     const data = keys.reduce((pv, cv) => {
       pv.x.push(cv);
@@ -115,7 +121,7 @@ const Plots = () => {
           <Form
             onSubmit={handleForm}
             initialValues={{
-              type: 'Power',
+              type: 'Make',
             }}
             render={({ handleSubmit }) => (
               <form
