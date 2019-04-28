@@ -6,7 +6,7 @@ import { DateRangePicker, isInclusivelyBeforeDay } from 'react-dates';
 import * as moment from 'moment';
 
 import calendarIconSrc from 'assets/svg/calendar.svg';
-import closeIconSrc from 'assets/svg/close.svg';
+import closeIconSrc from 'assets/svg/cross.svg';
 import forwardIconSrc from 'assets/svg/forward.svg';
 import backIconSrc from 'assets/svg/back.svg';
 import { md } from 'utils/breakpoints';

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/back-blue</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/back-blue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M9.39529926,12 L15.7094015,18.3079247 C16.0968662,18.6950104 16.0968662,19.3226002 15.7094015,19.7096858 C15.3219368,20.0967714 14.6937324,20.0967714 14.3062676,19.7096858 L7.29059853,12.7008805 C6.90313382,12.3137949 6.90313382,11.6862051 7.29059853,11.2991195 L14.3062676,4.29031422 C14.6937324,3.90322859 15.3219368,3.90322859 15.7094015,4.29031422 C16.0968662,4.67739984 16.0968662,5.30498964 15.7094015,5.69207527 L9.39529926,12 Z" id="chevron" fill="#2D5FE6"></path>
+    </g>
+</svg>

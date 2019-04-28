@@ -1,0 +1,23 @@
+@import '../../styles/settings/colors';
+
+.wrapper {
+  position: relative;
+}
+
+.tab {
+  display: flex;
+  min-width: 132px;
+  padding: 4px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 1px;
+}
+
+.selected {
+  background-color: $color-blue;
+  border-radius: 6px;
+  color: $color-white;
+  
+}
+

@@ -1,0 +1,81 @@
+@import '../../styles/settings/colors';
+@import '../../styles/mixins/responsive';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 0 8px;
+  width: 210px;
+  box-sizing: content-box;
+
+  @include respond-to(md) {
+    width: initial;
+    padding: 0;
+    align-items: baseline;
+  }
+
+  @include respond-to(sm) {
+    padding: 20px 10px;
+  }
+}
+
+.listWrapperColumn {
+  padding-top: 24px;
+
+  @include respond-to(md) {
+    display: none;
+
+    span {
+      text-align: center;
+    }
+  }
+}
+
+.listWrapperRow {
+  display: none;
+  padding-top: 30px;
+
+  @include respond-to(md) {
+    height: 56px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 6px;
+    background-color: $color-pale-grey;
+    margin-top: 78px;
+    padding: 0;
+  }
+}
+
+.header {
+  font-size: 26px;
+  font-weight: normal;
+  line-height: 1.54;
+}
+
+.listItemColumnText {
+  margin-right: 30px;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  font-weight: 500;
+}
+
+.listItemRowText {
+  margin-right: 20px;
+}
+
+.listItemColumn {
+  justify-content: space-between;
+  margin: 8px 0;
+  width: 100%;
+}
+
+.listItemColumnSelected .listItemColumnText {
+  color: $color-blue;
+}
+
+.invertIcon {
+  transform: rotate(180deg)
+}

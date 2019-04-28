@@ -10,7 +10,7 @@ import { MiddlebarContextMobile } from 'context';
 import { md } from 'utils/breakpoints';
 
 import ToggleIconSrc from 'assets/svg/chevron-left.svg';
-import CloseIconSrc from 'assets/svg/close.svg';
+import CloseIconSrc from 'assets/svg/cross.svg';
 
 import styles from './styles.module.scss';
 

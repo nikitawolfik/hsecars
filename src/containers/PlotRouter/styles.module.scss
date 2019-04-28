@@ -1,0 +1,11 @@
+@import '../../styles/mixins/responsive';
+
+.container {
+}
+
+.menuWrapper {
+  @include respond-to(md) {
+    position: static;
+    margin-bottom: 16px;
+  }
+}

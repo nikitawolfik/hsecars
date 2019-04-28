@@ -14,3 +14,5 @@ export { default as TableCell } from './TableCell';
 export { default as TableRow } from './TableRow';
 export { default as WindowResizer } from './WindowResizer';
 export { default as FormError } from './FormError';
+export { default as ListMenu } from './ListMenu';
+export { default as Tab } from './Tab';

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/forward-blue</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/forward-blue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M16,9 C16.5522847,9 17,9.44771525 17,10 C17,10.5522847 16.5522847,11 16,11 L4,11 C3.44771525,11 3,10.5522847 3,10 C3,9.44771525 3.44771525,9 4,9 L16,9 Z" id="line" fill="#2D5FE6" transform="translate(10.000000, 10.000000) scale(-1, 1) translate(-10.000000, -10.000000) "></path>
+        <path d="M10.9289322,10.0002814 L17.2928932,16.3642424 C17.6834175,16.7547667 17.6834175,17.3879317 17.2928932,17.778456 C16.9023689,18.1689803 16.2692039,18.1689803 15.8786797,17.778456 L8.80761184,10.7073882 C8.41708755,10.3168639 8.41708755,9.68369888 8.80761184,9.29317459 L15.8786797,2.22210678 C16.2692039,1.83158249 16.9023689,1.83158249 17.2928932,2.22210678 C17.6834175,2.61263107 17.6834175,3.24579605 17.2928932,3.63632034 L10.9289322,10.0002814 Z" id="chevron" fill="#2D5FE6" transform="translate(13.050253, 10.000281) scale(-1, 1) translate(-13.050253, -10.000281) "></path>
+    </g>
+</svg>

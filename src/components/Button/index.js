@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 
 const Button = ({
   element,
+  invertIcon,
   withTitle,
   withIcon,
   primary,
@@ -62,7 +63,15 @@ const Button = ({
           </span>
         )}
         {(!loading && withIcon) && (
-          <img src={icon} className={styles.icon} />
+          <img
+            className={
+              cx(
+                styles.icon,
+                { [styles.iconInverted]: invertIcon },
+              )
+            }
+            src={icon}
+          />
         )}
         {transparent && (
           <Fragment>
@@ -89,7 +98,15 @@ const Button = ({
         </span>
       )}
       {withIcon && (
-        <img src={icon} className={styles.icon} />
+        <img
+          src={icon}
+          className={
+            cx(
+              styles.icon,
+              { [styles.iconInverted]: invertIcon },
+            )
+          }
+        />
       )}
       {transparent && (
         <Fragment>

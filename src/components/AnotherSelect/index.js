@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { Form, Field } from 'react-final-form';
 
 import ToggleIconSrc from 'assets/svg/chevron-down.svg';
-import ResetIconSrc from 'assets/svg/close.svg';
+import ResetIconSrc from 'assets/svg/cross.svg';
 
 import styles from './styles.module.scss';
 
