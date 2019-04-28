@@ -1,12 +1,15 @@
 import React from 'react';
 
+import { DocumentTitle } from 'components';
+
+import styles from './styles.module.scss';
 
 const Plots = () => (
-  <div>
-    Plots
-    <pre>
-      hello
-    </pre>
+  <div className={styles.container}>
+    <DocumentTitle>
+      Plots
+    </DocumentTitle>
+
   </div>
 );
 

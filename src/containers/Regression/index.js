@@ -37,7 +37,7 @@ import {
   drivesInverted,
 } from 'assets/constants/translate';
 
-import { Button, WindowResizer } from 'components';
+import { Button, WindowResizer, DocumentTitle } from 'components';
 import { md } from 'utils/breakpoints';
 import parseSearch from 'utils/parseSearch';
 import makeQuery from 'utils/makeQuery';
@@ -387,6 +387,9 @@ const Regression = ({ location: { search }, history: { push } }) => {
     <WindowResizer>
       {width => (
         <div className={styles.container}>
+          <DocumentTitle>
+            Regression
+          </DocumentTitle>
 
           <div className={styles.formWrapper}>
             <Form
