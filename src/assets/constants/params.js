@@ -28,7 +28,7 @@ export const paramsSelectObj = {
   },
   Drive: {
     placeholder: 'Привод',
-    title: 'приводв',
+    title: 'привода',
   },
   Transmission: {
     placeholder: 'Трансмиссия',
