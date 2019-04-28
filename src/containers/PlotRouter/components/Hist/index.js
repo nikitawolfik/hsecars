@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import Plot from 'react-plotly.js';
@@ -78,7 +79,7 @@ const Plots = () => {
             font: {
               family: 'Inter',
               letterSpacing: '0.5px',
-              size: 20,
+              size: width > md ? 20 : width > 400 ? 16 : 10,
             },
           }}
         />

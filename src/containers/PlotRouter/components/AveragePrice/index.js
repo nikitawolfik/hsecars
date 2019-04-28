@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import Plot from 'react-plotly.js';
@@ -16,12 +17,15 @@ const paramsSelectObj = {
   ...newparams,
   segment: {
     placeholder: 'Класс',
+    title: 'класса',
   },
   Power: {
     placeholder: 'Мощность',
+    title: 'мощности',
   },
   Age: {
     placeholder: 'Возраст',
+    title: 'возраста',
   },
 };
 delete paramsSelectObj.Model;
@@ -95,11 +99,11 @@ const Plots = () => {
           layout={{
             width: width > md ? width - 240 : width,
             height: width > md ? window.innerHeight - 200 : '100%',
-            title: paramsSelectObj[param].placeholder,
+            title: `Средняя цена в зависимости от ${paramsSelectObj[param].title}`,
             font: {
               family: 'Inter',
               letterSpacing: '0.5px',
-              size: 20,
+              size: width > md ? 20 : width > 400 ? 16 : 10,
             },
             margin: {
               b: 150,
@@ -115,7 +119,7 @@ const Plots = () => {
       {width => (
         <div className={styles.container}>
           <DocumentTitle>
-            Bar Charts
+            Average Prices
           </DocumentTitle>
 
           <Form
