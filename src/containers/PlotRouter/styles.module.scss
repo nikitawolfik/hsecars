@@ -1,6 +1,12 @@
 @import '../../styles/mixins/responsive';
 
 .container {
+  display: flex;
+  flex-direction: row;
+
+  @include respond-to(md) {
+    flex-direction: column;
+  }
 }
 
 .menuWrapper {

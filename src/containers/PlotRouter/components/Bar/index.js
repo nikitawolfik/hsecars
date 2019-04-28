@@ -12,36 +12,32 @@ import { md } from 'utils/breakpoints';
 import styles from './styles.module.scss';
 
 const PARAMS_TRANSLATE = {
-  Power: {
-    title: 'мощности',
-    option: 'Мощность',
+  Make: {
+    title: 'марок',
+    option: 'Марка',
   },
-  Age: {
-    title: 'возраста',
-    option: 'Возраст',
+  Color: {
+    title: 'цветов',
+    option: 'Цвет',
   },
-  Mileage: {
-    title: 'пробега',
-    option: 'Пробег',
+  Body: {
+    title: 'типов кузова',
+    option: 'Кузов',
   },
-  Volume: {
-    title: 'объема двигателя',
-    option: 'Объем двигателя',
-  },
-  Owners: {
-    title: 'количества собственников',
-    option: 'Количество собственников',
+  segment: {
+    title: 'классов',
+    option: 'Класс',
   },
 };
 
 const Plots = () => {
-  const [type, setType] = useState(['Power']);
+  const [type, setType] = useState(['Make']);
   const handleForm = (values) => {
     const { type: mode } = values;
     setType([mode]);
   };
 
-  const options = ['Power', 'Age', 'Mileage', 'Volume', 'Owners'].map(param => (
+  const options = ['Make', 'Color', 'Body', 'segment'].map(param => (
     <option
       key={param}
       value={param}
@@ -53,12 +49,31 @@ const Plots = () => {
   const dataset = datasetnew
     .filter(car => car.Power <= 300)
     .filter(car => car.Mileage <= 400000)
-    .filter(car => car.Age <= 25);
+    .filter(car => car.Age <= 25)
+    .filter(car => car.segment != null);
 
   const plots = width => type.map((param) => {
+    const temp = dataset.reduce((pv, cv) => {
+      if (!(cv[param] in pv)) {
+        pv[cv[param]] = 1;
+      } else {
+        pv[cv[param]] += 1;
+      }
+      return pv;
+    }, {});
+    const temp2 = Object.keys(temp).reduce((pv, cv) => {
+      const obj = {
+        name: cv,
+        value: temp[cv],
+      };
+      pv.push(obj);
+      return pv;
+    }, []).sort((b, a) => a.value - b.value);
+
     const data = {
-      x: dataset.map(car => parseInt(car[param], 10)),
-      type: 'histogram',
+      y: temp2.map(car => parseInt(car.value, 10)),
+      x: temp2.map(car => car.name),
+      type: 'bar',
     };
 
     return (
@@ -69,13 +84,16 @@ const Plots = () => {
             displayModeBar: false,
           }}
           layout={{
-            width: width > md ? width - 240 : width,
+            width: width > md ? width - 240: width,
             height: width > md ? window.innerHeight - 200 : '100%',
             title: `Распределение ${PARAMS_TRANSLATE[param].title}`,
             font: {
               family: 'Inter',
               letterSpacing: '0.5px',
               size: 20,
+            },
+            margin: {
+              b: 150,
             },
           }}
         />
@@ -88,7 +106,7 @@ const Plots = () => {
       {width => (
         <div className={styles.container}>
           <DocumentTitle>
-            Histograms
+            Bar Charts
           </DocumentTitle>
 
           <Form

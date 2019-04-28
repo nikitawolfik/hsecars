@@ -8,6 +8,10 @@
   flex-direction: column;
   height: 100%;
   padding-top: 30px;
+
+  @include respond-to(md) {
+    padding-top: 0;
+  }
 }
 
 .plots {

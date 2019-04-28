@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { ListMenu } from 'components';
 
-import { Histograms } from './components';
+import { Histograms, Bars } from './components';
 import styles from './styles.module.scss';
 
 const PlotRouter = ({ match: { path, url }, location: { pathname } }) => {
@@ -23,6 +23,7 @@ const PlotRouter = ({ match: { path, url }, location: { pathname } }) => {
       <div className={styles.contentWrapper}>
         <Switch>
           <Route path={`${path}/histograms`} component={Histograms} />
+          <Route path={`${path}/bars`} component={Bars} />
           <Redirect to={`${path}/histograms`} />
         </Switch>
       </div>
