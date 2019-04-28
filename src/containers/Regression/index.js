@@ -262,7 +262,11 @@ const generateFields = (values, possibleValues, setPossibleValues) => (name) => 
                   {...input}
                   type="select"
                   placeholder={name}
-                  disabled={name === 'Model' && values.Make === 'Марка'}
+                  disabled={
+                    (name === 'Model' && values.Make === 'Марка')
+                    || (name === 'Volume' && !Object.keys(carToClass).includes(`${values.Make} ${values.Model}`))
+                    || (name === 'Body' && !Object.keys(carToClass).includes(`${values.Make} ${values.Model}`))
+                  }
                   className={cx(
                     styles.select,
                     {
@@ -381,7 +385,7 @@ const Regression = ({ location: { search }, history: { push } }) => {
           <div className={styles.formWrapper}>
             <Form
               decorators={[focusOnError]}
-              validate={validate(possibleValues)}
+              validate={validate(possibleValues, paramsValues)}
               onSubmit={onSubmit(setPrice, push)}
               initialValues={initialValues}
               render={({ handleSubmit, reset, submitting, pristine, values }) => {

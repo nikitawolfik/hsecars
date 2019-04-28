@@ -1,8 +1,15 @@
-export default possibleValues => (values) => {
+import {
+  makeValues,
+  makesmodels,
+  volumes,
+} from 'assets/constants';
+
+export default (possibleValues, paramsValues) => (values) => {
   const errors = {};
 
   const selects = ['Make', 'Body', 'Color', 'Drive', 'Owners', 'Transmission', 'Gas', 'Volume'];
   const changingSelects = ['Body', 'Volume'];
+  const regularSelects = ['Make', 'Color', 'Drive', 'Owners', 'Transmission', 'Gas'];
   const inputs = ['Power', 'Mileage', 'Age'];
   const options = ['Марка', 'Привод', 'Трансмиссия', 'Количество владельцев', 'Цвет', 'Тип кузова', 'Тип топлива', 'Объем двигателя'];
 
@@ -37,6 +44,34 @@ export default possibleValues => (values) => {
       errors[input] = 'Enter a number';
     } else if (values[input] < 0) {
       errors[input] = 'Be more positive';
+    }
+  });
+
+  regularSelects.forEach((select) => {
+    let optionsArray = [];
+
+    if (select === 'Make') {
+      optionsArray = paramsValues[select].filter(el => el !== 'Другая');
+    } else if (select === 'Model') {
+      optionsArray = !Object.keys(makeValues).includes(values.Make)
+        ? []
+        : makesmodels[values.Make];
+    } else if (select === 'Drive') {
+      optionsArray = ['Полный', 'Передний', 'Задний'];
+    } else if (select === 'Owners') {
+      optionsArray = ['1', '2', '3', '4'];
+    } else if (select === 'Transmission') {
+      optionsArray = ['1', '0'];
+    } else if (select === 'Volume') {
+      optionsArray = [...volumes];
+    } else if (select === 'Gas') {
+      optionsArray = ['Бензин', 'Другое'];
+    } else {
+      optionsArray = paramsValues[select];
+    }
+
+    if (!optionsArray.includes(values[select])) {
+      errors[select] = 'Enter valid value';
     }
   });
 
