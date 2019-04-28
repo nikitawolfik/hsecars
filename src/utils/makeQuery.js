@@ -1,5 +1,6 @@
+/* eslint-disable no-param-reassign */
 export default (params) => {
-  const query = Object.keys(params).reduce( (pv, cv) => {
+  const query = Object.keys(params).reduce((pv, cv) => {
     if (pv === '?') {
       pv += `${cv}=${params[cv]}`;
     } else {

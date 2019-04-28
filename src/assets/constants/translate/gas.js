@@ -1,6 +1,6 @@
 export const gas = {
-  'Бензин': 'gas',
-  'Другое': 'else',
+  Бензин: 'gas',
+  Другое: 'else',
 };
 
 export const gasInverted = {

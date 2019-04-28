@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -76,7 +77,8 @@ const onSubmit = (setPrice, push) => (values) => {
   let Transmission = coefficients.Transmisson[values.Transmission === 'Автомат' ? 1 : 0];
   let Volume = coefficients.Volume[values.Volume.slice(0, 1)];
   const Class = coefficients.Class[carClass];
-  let price = (Intercept + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume + Class);
+  let price = (Intercept + Age + Body + Color + Drive + Gas + Make);
+  price += Mileage + Owners + Power + Transmission + Volume + Class;
 
   if (carClass === 'b') {
     const { Intercept: InterceptB } = coefficientsB;
@@ -91,7 +93,8 @@ const onSubmit = (setPrice, push) => (values) => {
     Power = values.Power * coefficientsB.Power;
     Transmission = coefficientsB.Transmisson[values.Transmission];
     Volume = coefficientsB.Volume[values.Volume.slice(0, 1)];
-    price = (InterceptB + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+    price = (InterceptB + Age + Body + Color + Drive + Gas);
+    price += Make + Mileage + Owners + Power + Transmission + Volume;
   }
 
   if (carClass === 'c') {
@@ -107,7 +110,8 @@ const onSubmit = (setPrice, push) => (values) => {
     Power = values.Power * coefficientsC.Power;
     Transmission = coefficientsC.Transmisson[values.Transmission];
     Volume = coefficientsC.Volume[values.Volume.slice(0, 1)];
-    price = (InterceptC + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+    price = (InterceptC + Age + Body + Color + Drive + Gas);
+    price += Make + Mileage + Owners + Power + Transmission + Volume;
   }
 
   if (carClass === 'suv') {
@@ -123,7 +127,8 @@ const onSubmit = (setPrice, push) => (values) => {
     Power = values.Power * coefficientsSuv.Power;
     Transmission = coefficientsSuv.Transmisson[values.Transmission];
     Volume = coefficientsSuv.Volume[values.Volume.slice(0, 1)];
-    price = (InterceptSuv + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+    price = (InterceptSuv + Age + Body + Color + Drive + Gas);
+    price += Make + Mileage + Owners + Power + Transmission + Volume;
   }
 
   if (carClass === 'cross') {
@@ -139,7 +144,8 @@ const onSubmit = (setPrice, push) => (values) => {
     Power = values.Power * coefficientsCross.Power;
     Transmission = coefficientsCross.Transmisson[values.Transmission];
     Volume = coefficientsCross.Volume[values.Volume.slice(0, 1)];
-    price = (InterceptCross + Age + Body + Color + Drive + Gas + Make + Mileage + Owners + Power + Transmission + Volume);
+    price = (InterceptCross + Age + Body + Color + Drive + Gas);
+    price += Make + Mileage + Owners + Power + Transmission + Volume;
   }
 
   if (price > 0) {
@@ -402,13 +408,16 @@ const Regression = ({ location: { search }, history: { push } }) => {
                   >
                     <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
                     <div className={styles.row}>
-                      {params.slice(0, 4).map(generateFields(values, possibleValues, setPossibleValues))}
+                      {params.slice(0, 4)
+                        .map(generateFields(values, possibleValues, setPossibleValues))}
                     </div>
                     <div className={styles.row}>
-                      {params.slice(4, 8).map(generateFields(values, possibleValues, setPossibleValues))}
+                      {params.slice(4, 8)
+                        .map(generateFields(values, possibleValues, setPossibleValues))}
                     </div>
                     <div className={styles.rowShort}>
-                      {params.slice(8, 12).map(generateFields(values, possibleValues, setPossibleValues))}
+                      {params.slice(8, 12)
+                        .map(generateFields(values, possibleValues, setPossibleValues))}
                     </div>
                     <div className={styles.buttonWrapper}>
                       <Button

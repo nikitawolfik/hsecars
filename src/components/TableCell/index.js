@@ -6,29 +6,17 @@ import styles from './styles.module.scss';
 
 
 const TableCell = ({ className, text, type, onClick }) => {
-  if (type === 'td') {
-    return (
-      <td
-        className={cx(
-          styles.cell,
-          className,
-        )}
-        onClick={onClick}
-      >
-        {text}
-      </td>
-    );
-  }
-
+  const Element = type;
   return (
-    <th
+    <Element
       className={cx(
         styles.cell,
         className,
       )}
+      onClick={onClick}
     >
       {text}
-    </th>
+    </Element>
   );
 };
 

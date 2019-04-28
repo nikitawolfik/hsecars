@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const DocumentTitle = ({ children }) => {
   React.useEffect(() => {
-    document.title = `${children} | Adjoy`;
+    document.title = `${children} | HSE Cars`;
   }, []);
   return null;
 };
