@@ -33,6 +33,10 @@ const PARAMS_TRANSLATE = {
     title: 'количества собственников',
     option: 'Количество собственников',
   },
+  Price: {
+    title: 'цен',
+    option: 'Цена',
+  },
 };
 
 const Plots = () => {
@@ -42,7 +46,7 @@ const Plots = () => {
     setType([mode]);
   };
 
-  const options = ['Power', 'Age', 'Mileage', 'Volume', 'Owners'].map(param => (
+  const options = ['Power', 'Age', 'Mileage', 'Volume', 'Owners', 'Price'].map(param => (
     <option
       key={param}
       value={param}
