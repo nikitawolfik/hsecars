@@ -255,6 +255,21 @@ const generateFields = (values, possibleValues, setPossibleValues) => (name) => 
       ));
     }
 
+    if (name === 'Model') {
+      options = optionsArray.sort().map((optionParam) => {
+        const value = parseInt(optionParam, 10);
+        const displayValue = Number.isNaN(value) ? optionParam : value;
+        return (
+          <option
+            value={optionParam}
+            key={optionParam}
+          >
+            {displayValue}
+          </option>
+        )
+      });
+    }
+
 
     return (
       <div className={styles.fieldWrapper} key={name}>
