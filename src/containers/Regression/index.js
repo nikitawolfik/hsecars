@@ -193,48 +193,47 @@ const generateFields = (values, possibleValues, setPossibleValues) => (name) => 
 
     const segment = carToClass[`${values.Make} ${values.Model}`] || null;
 
-    if (segment === 'b' || segment === 'c' || segment === 'suv' || segment === 'cross') {
-      if (name === 'Volume') {
-        const optionsAll = datasetnew
-          .filter(car => car.segment === segment)
-          .map(car => car[name])
-          .filter(param => param !== 'null')
-          .sort();
-        const [first, last] = [optionsAll[0], optionsAll[optionsAll.length - 1]];
-        const [min, max] = [parseFloat(first), parseFloat(last)];
-        optionsArray = [];
-        for (let i = min; i < max; i += 0.1) {
-          const num = parseFloat(i).toFixed(1);
-          optionsArray.push(num);
-        }
-        if (JSON.stringify(possibleValues.Volume) !== JSON.stringify(optionsArray)) {
-          setPossibleValues({
-            ...possibleValues,
-            Volume: optionsArray,
-          });
-        }
+    if (name === 'Volume') {
+      const optionsAll = datasetnew
+        .filter(car => car.segment === segment)
+        .map(car => car[name])
+        .filter(param => param !== 'null')
+        .sort();
+      const [first, last] = [optionsAll[0], optionsAll[optionsAll.length - 1]];
+      const [min, max] = [parseFloat(first), parseFloat(last)];
+      optionsArray = [];
+      for (let i = min; i < max; i += 0.1) {
+        const num = parseFloat(i).toFixed(1);
+        optionsArray.push(num);
       }
-
-      if (name === 'Body') {
-        const optionsAll = datasetnew
-          .filter(car => car.segment === segment)
-          .map(car => car[name])
-          .filter(param => param !== 'null')
-          .sort();
-        optionsArray = optionsAll.reduce((pv, cv) => {
-          if (!pv.includes(cv)) {
-            pv.push(cv);
-          }
-          return pv;
-        }, []);
-        if (JSON.stringify(possibleValues.Body) !== JSON.stringify(optionsArray)) {
-          setPossibleValues({
-            ...possibleValues,
-            Body: optionsArray,
-          });
-        }
+      if (JSON.stringify(possibleValues.Volume) !== JSON.stringify(optionsArray)) {
+        setPossibleValues({
+          ...possibleValues,
+          Volume: optionsArray,
+        });
       }
     }
+
+    if (name === 'Body') {
+      const optionsAll = datasetnew
+        .filter(car => car.segment === segment)
+        .map(car => car[name])
+        .filter(param => param !== 'null')
+        .sort();
+      optionsArray = optionsAll.reduce((pv, cv) => {
+        if (!pv.includes(cv)) {
+          pv.push(cv);
+        }
+        return pv;
+      }, []);
+      if (JSON.stringify(possibleValues.Body) !== JSON.stringify(optionsArray)) {
+        setPossibleValues({
+          ...possibleValues,
+          Body: optionsArray,
+        });
+      }
+    }
+
 
     let options = optionsArray.sort().map(optionParam => (
       <option
@@ -266,7 +265,7 @@ const generateFields = (values, possibleValues, setPossibleValues) => (name) => 
           >
             {displayValue}
           </option>
-        )
+        );
       });
     }
 
