@@ -157,6 +157,7 @@ Button.propTypes = {
   outline: PropTypes.bool,
   type: PropTypes.oneOf(['button', 'submit']),
   secondary: PropTypes.bool,
+  invertIcon: PropTypes.bool,
   style: PropTypes.shape({}),
 };
 

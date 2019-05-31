@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { ListMenu } from 'components';
@@ -6,7 +7,7 @@ import { ListMenu } from 'components';
 import { Histograms, Bars, AveragePrice } from './components';
 import styles from './styles.module.scss';
 
-const PlotRouter = ({ match: { path, url }, location: { pathname } }) => {
+const PlotRouter = ({ match: { path }, location: { pathname } }) => {
   const currentRoute = pathname.split('/')[2];
   return (
     <div className={styles.container}>
@@ -31,6 +32,11 @@ const PlotRouter = ({ match: { path, url }, location: { pathname } }) => {
       </div>
     </div>
   );
+};
+
+PlotRouter.propTypes = {
+  match: PropTypes.shape({}),
+  location: PropTypes.shape({}),
 };
 
 export default PlotRouter;

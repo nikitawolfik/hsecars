@@ -88,7 +88,7 @@ const Plots = () => {
             displayModeBar: false,
           }}
           layout={{
-            width: width > md ? width - 240: width,
+            width: width > md ? width - 240 : width,
             height: width > md ? window.innerHeight - 200 : '100%',
             title: `Распределение ${PARAMS_TRANSLATE[param].title}`,
             font: {

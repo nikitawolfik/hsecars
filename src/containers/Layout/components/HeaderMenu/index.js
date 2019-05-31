@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import styles from './styles.module.scss';
@@ -30,4 +30,4 @@ const HeaderMenu = () => (
 );
 
 
-export default memo(HeaderMenu);
+export default HeaderMenu;
